@@ -71,16 +71,7 @@ class _MyAppState extends State<MyApp> {
 
     // Initialize parse
     await Parse().initialize(keyParseApplicationId, keyParseServerUrl,
-        masterKey: keyParseMasterKey,
-        debug: true,
-        coreStore: await CoreStoreSharedPrefsImp.getInstance());
-
-    //parse serve with secure store and desktop support
-
-    //    Parse().initialize(keyParseApplicationId, keyParseServerUrl,
-    //        masterKey: keyParseMasterKey,
-    //        debug: true,
-    //        coreStore: CoreStoreSharedPrefsImp.getInstance());
+        masterKey: keyParseMasterKey, debug: true, coreStore: coreStore);
 
     // Check server is healthy and live - Debug is on in this instance so check logs for result
     final ParseResponse response = await Parse().healthCheck();
@@ -384,8 +375,10 @@ class _MyAppState extends State<MyApp> {
   /// Available options:
   /// SharedPreferences - Not secure but will work with older versions of SDK - CoreStoreSharedPrefsImpl
   /// Sembast - NoSQL DB - Has security - CoreStoreSembastImpl
+  /// Hive - NoSQL DB - CoreStoreHiveImpl
   Future<CoreStore> initCoreStore() async {
     //return CoreStoreSembastImp.getInstance();
+    //return CoreStoreHiveImp.getInstance();
     return CoreStoreSharedPrefsImp.getInstance();
   }
 }

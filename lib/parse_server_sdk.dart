@@ -16,11 +16,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 import 'package:xxtea/xxtea.dart';
 
 export 'src/network/parse_live_query.dart'
-if (dart.library.js) 'src/network/parse_live_query_web.dart';
+    if (dart.library.js) 'src/network/parse_live_query_web.dart';
 
 part 'package:parse_server_sdk/src/objects/response/parse_error_response.dart';
 
@@ -33,6 +34,8 @@ part 'package:parse_server_sdk/src/objects/response/parse_response_utils.dart';
 part 'package:parse_server_sdk/src/objects/response/parse_success_no_results.dart';
 
 part 'package:parse_server_sdk/src/data/core_store.dart';
+
+part 'package:parse_server_sdk/src/storage/core_store_hive_impl.dart';
 
 part 'package:parse_server_sdk/src/storage/core_store_sem_impl.dart';
 
@@ -118,8 +121,8 @@ class Parse {
       String masterKey,
       String sessionId,
       bool autoSendSessionId,
-        SecurityContext securityContext,
-        CoreStore coreStore}) async {
+      SecurityContext securityContext,
+      CoreStore coreStore}) async {
     final String url = removeTrailingSlash(serverUrl);
 
     await ParseCoreData.init(appId, url,
@@ -149,7 +152,7 @@ class Parse {
     final ParseHTTPClient _client = client ??
         ParseHTTPClient(
             sendSessionId:
-            sendSessionIdByDefault ?? ParseCoreData().autoSendSessionId,
+                sendSessionIdByDefault ?? ParseCoreData().autoSendSessionId,
             securityContext: ParseCoreData().securityContext);
 
     const String className = 'parseBase';
